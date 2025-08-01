@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Database Operation Form</title>
+    <style>
+        body {
+            background-color: beige;
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        .form-container {
+            background-color: #f9f9f9;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        #formFields p {
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Select Database Operation</h2>
+
+        <form action="/process_query" method="post">
+            <label for="operation">Choose an operation:</label>
+            <select id="operation" name="operation" onchange="showForm()">
+                <option value="">--Select--</option>
+                <option value="select">Select</option>
+                <option value="insert">Insert</option>
+                <option value="update">Update</option>
+                <option value="delete">Delete</option>
+            </select>
+
+            <div id="formFields"></div>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    {% if data %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>phone</th>
+            <th>dob</th>
+            <th>doj</th>
+            <th>salary</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <script>
+        function showForm() {
+            var op = document.getElementById("operation").value;
+            var form = document.getElementById("formFields");
+
+            if (op === "select") {
+                form.innerHTML = `<p>No input needed for SELECT. Click Submit.</p>`;
+            }
+            else if (op === "insert") {
+                form.innerHTML = `
+                    <label>ID:</label>
+                    <input type="number" name="id" required>
+                    <label>Name:</label>
+                    <input type="text" name="nm" required>
+                    <label>Address:</label>
+                    <input type="text" name="addr" required>
+                    <label>Enter phone number : </label>
+                    <input type="text" name="phone">
+                    <label>Enter dob : </label>
+                    <input type="date" name="dob">
+                    <label>Enter doj : </label>
+                    <input type="date" name="doj">
+                    <label>enter salary : </label>
+                    <input type="text" name="salary">
+                    <label>type of worker : </label>
+                    <input type="radio" value="worker" name="flt">full time employee
+                    <input type="radio" value="worker" name="fl">free lancer
+                    <input type="radio" value
+
+
+
+                `;
+            }
+            else if (op === "update") {
+                form.innerHTML = `
+                    <label>ID to Update:</label>
+                    <input type="number" name="id" required>
+                    <label>New Name:</label>
+                    <input type="text" name="nm" required>
+                    <label>New Address:</label>
+                    <input type="text" name="addr" required>
+                    <label>Enter phone number : </label>
+                    <input type="text" name="phone">
+                    <label>Enter dob : </label>
+                    <input type="date" name="dob">
+                    <label>Enter doj : </label>
+                    <input type="date" name="doj">
+                    <label>enter salary : </label>
+                    <input type="text" name="salary">
+
+                `;
+            }
+            else if (op === "delete") {
+                form.innerHTML = `
+                    <label>ID to Delete:</label>
+                    <input type="number" name="id" required>
+                `;
+            }
+            else {
+                form.innerHTML = "";
+            }
+        }
+    </script>
+</body>
+</html>
